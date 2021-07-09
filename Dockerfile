@@ -1,6 +1,7 @@
 FROM ubuntu:20.04 as intermediate
 
-# install git
+RUN mkdir /etc/cloud
+RUN touch /etc/cloud/cloud-init.disabled
 RUN apt-get update
 RUN apt-get install -y git
 
