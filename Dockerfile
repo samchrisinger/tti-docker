@@ -22,8 +22,7 @@ COPY --from=intermediate /thlib-texts-xml /thlib-texts-xml
 COPY --from=intermediate /tla-privates/solr/variables /solr-variables
 
 RUN apt update
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk
-#RUN wget https://gigenet.dl.sourceforge.net/project/saxon/Saxon-HE/10/Java/SaxonHE10-1J.zip && unzip SaxonHE10-1J.zip
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy
 
 RUN cd thlib-texts-indexer && pip3 install -r requirements.txt
 RUN pip3 install /TibetanData/intertexuality
