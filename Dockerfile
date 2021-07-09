@@ -4,20 +4,13 @@ FROM ubuntu:20.04 as intermediate
 RUN apt-get update
 RUN apt-get install -y git
 
-# add credentials on build
-ARG SSH_PRIVATE_KEY
-RUN mkdir /root/.ssh/
-RUN echo "${SSH_PRIVATE_KEY}" > /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa
+ARG GH_TOKEN
+ARG GH_USERNAME
 
-# make sure your domain is accepted
-RUN touch /root/.ssh/known_hosts
-RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
-
-RUN git clone git@github.com:samchrisinger/thlib-texts-indexer.git
-RUN git clone --single-branch --branch py3 git@github.com:samchrisinger/TibetanData.git
-RUN git clone git@github.com:thl/thlib-texts-xml.git
-RUN git clone git@github.com:samchrisinger/tla-privates.git
+RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/thlib-texts-indexer
+RUN git clone --single-branch --branch py3 https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/TibetanData
+RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/thlib-texts-xml
+RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tla-privates
 
 FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
