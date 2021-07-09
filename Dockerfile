@@ -27,6 +27,7 @@ RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip 
 RUN cd thlib-texts-indexer && pip3 install -r requirements.txt
 RUN pip3 install /TibetanData/intertexuality
 RUN echo "#!/bin/bash" > run.sh
-RUN source /solr-variables && echo 'cd thlib-texts-indexer && python3 index.py -ttxd /thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon saxon-8.jar -include lccw,ngb.pt --index_itx --results ./results --solr_auth $SOLR_USER:$SOLR_PASS --tib_data_path /TibetanData "$@"' >> run.sh
-RUN cat run.sh
-RUN chmod a+x ./run.sh
+
+# RUN source /solr-variables && echo 'cd thlib-texts-indexer && python3 index.py -ttxd /thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon saxon-8.jar -include lccw,ngb.pt --index_itx --results ./results --solr_auth $SOLR_USER:$SOLR_PASS --tib_data_path /TibetanData "$@"' >> run.sh
+# RUN cat run.sh
+# RUN chmod a+x ./run.sh
