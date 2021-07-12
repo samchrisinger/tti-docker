@@ -3,7 +3,7 @@ FROM ubuntu:20.04 as intermediate
 RUN mkdir /etc/cloud
 RUN touch /etc/cloud/cloud-init.disabled
 RUN apt-get update
-RUN apt-get install -y git
+RUN apt-get install -y git git-lfs
 
 ARG GH_TOKEN
 ARG GH_USERNAME
@@ -15,7 +15,6 @@ RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/thlib-texts-xml
 RUN git clone --branch ${PRIVATES_BRANCH:-develop} https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tla-privates
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tibetan-text-reuse
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tti-texts
-RUN apt install git git-lfs
 RUN git lfs install
 RUN cd /tti-texts && git lfs pull
 
