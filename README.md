@@ -15,3 +15,42 @@ cd /thlib-texts-indexer
 source .venv/bin/activate
 ./examples/index-all-texts.sh
 ```
+
+## Running Intertextual Analysis
+
+Currently there are two different strategies for running intertextual analyis in use. Steps for running each are below:
+
+### TibetanData (Zach and Chonyi's work)
+
+The following will run the analysis and index the results:
+
+```bash
+cd /thlib-texts/indexer
+# activate the virtualenv
+source .venv/bin/activate
+set -o allexport; source /solr-variables; set +o allexport
+python index.py -ttxd ../thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon ~/Downloads/saxon-8.jar --solr_auth $SOLR_USER:$SOLR_PASS\
+-include ngb.pt,lccw --index_itx --tib_data_path ../TibetanData --itx_type itx
+```
+
+### tibetan-text-reuse (Tennom's work)
+
+Analysis and indexing happen in two distinct steps:
+
+```bash
+cd /tibetan-text-reuse
+# activate the virtualenv
+source .venv/bin/activate
+python bo_reuse/text_reuse.py  -c ../tti-texts/texts/lccw-raw.txt ../tti-texts/texts/ngb.pt-raw.txt -d . -o result.txt
+```
+
+The above script will take several hours to run. Once it is finished:
+
+```bash
+cd /thlib-texts-indexer
+# activate the virtualenv
+source .venv/bin/activate
+set -o allexport; source /solr-variables; set +o allexport
+python index.py -ttxd ../thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon ./saxon-8.jar --solr_auth $SOLR_USER:$SOLR_PASS\
+--results_file ../tibetan-text-reuse/result.txt --text_file_1 ../tti-texts/texts/lccw.txt --text_file_2 ../tti-texts/texts/ngb.pt.txt --itx_type itx2
+```
