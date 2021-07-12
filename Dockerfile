@@ -14,7 +14,10 @@ RUN git clone --single-branch --branch py3 https://${GH_USERNAME}:${GH_TOKEN}@gi
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/thlib-texts-xml
 RUN git clone --branch ${PRIVATES_BRANCH:-develop} https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tla-privates
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tibetan-text-reuse
-RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com:thl/tti-texts
+RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tti-texts
+RUN apt install git git-lfs
+RUN git lfs install
+RUN cd /tti-texts && git lfs pull
 
 FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
@@ -30,6 +33,5 @@ RUN apt update
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv
 
 RUN cd thlib-texts-indexer && python3 -m venv .venv && source ./.venv/bin/activate && pip3 install -r requirements.txt
-#RUN pip3 install /TibetanData/intertexuality
 
 RUN cd tibetan-text-reuse && python3 -m venv .venv && source ./.venv/bin/activate && pip3 install -e .
