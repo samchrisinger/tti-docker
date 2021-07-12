@@ -25,8 +25,9 @@ COPY --from=intermediate /tla-privates/solr/variables /solr-variables
 COPY --from=intermediate /tibetan-text-reuse /tibetan-text-reuse
 
 RUN apt update
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv
 
-RUN cd thlib-texts-indexer && pip3 install -r requirements.txt
+RUN cd thlib-texts-indexer && python3 -m venv ,venv && source ./.venv/bin/activate && pip3 install -r requirements.txt
 RUN pip3 install /TibetanData/intertexuality
-RUN echo "#!/bin/bash" > run.sh
+
+RUN cd tibetan-text-reuse && python3 -m venv .venv && source ./venv/bin/activate && pip3 install -e .
