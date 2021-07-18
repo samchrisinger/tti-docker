@@ -14,9 +14,6 @@ RUN git clone --single-branch --branch py3 https://${GH_USERNAME}:${GH_TOKEN}@gi
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/thlib-texts-xml
 RUN git clone --branch ${PRIVATES_BRANCH:-develop} https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tla-privates
 RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tibetan-text-reuse
-RUN git clone https://${GH_USERNAME}:${GH_TOKEN}@github.com/thl/tti-texts
-RUN git lfs install
-RUN cd /tti-texts && git lfs pull
 
 FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
@@ -26,10 +23,11 @@ COPY --from=intermediate /TibetanData /TibetanData
 COPY --from=intermediate /thlib-texts-xml /thlib-texts-xml
 COPY --from=intermediate /tla-privates/solr/variables /solr-variables
 COPY --from=intermediate /tibetan-text-reuse /tibetan-text-reuse
-COPY --from=intermediate /tti-texts /tti-texts
 
 RUN apt update
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv
+
+RUN wget -c https://www.dropbox.com/s/hd3fwwumaxxllt4/texts.tar.gz\?dl\=0 -O - | tar -xz
 
 RUN cd thlib-texts-indexer && python3 -m venv .venv && source ./.venv/bin/activate && pip3 install -r requirements.txt
 
