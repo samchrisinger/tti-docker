@@ -25,7 +25,7 @@ COPY --from=intermediate /tla-privates/solr/variables /solr-variables
 COPY --from=intermediate /tibetan-text-reuse /tibetan-text-reuse
 
 RUN apt update
-RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv
+RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv tmux
 
 RUN wget -c https://www.dropbox.com/s/hd3fwwumaxxllt4/texts.tar.gz\?dl\=0 -O - | tar -xz
 
