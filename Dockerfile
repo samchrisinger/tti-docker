@@ -27,7 +27,7 @@ COPY --from=intermediate /tibetan-text-reuse /tibetan-text-reuse
 RUN apt update
 RUN DEBIAN_FRONTEND="noninteractive" apt install -y python3-pip wget curl unzip default-jre default-jdk python3-numpy python3-venv tmux
 
-RUN wget -c https://www.dropbox.com/s/hd3fwwumaxxllt4/texts.tar.gz\?dl\=0 -O - | tar -xz
+RUN wget --no-check-certificate -c https://tla-dev.cicada.shanti.virginia.edu/texts.tar.gz -O - | tar -xz
 
 RUN cd thlib-texts-indexer && python3 -m venv .venv && source ./.venv/bin/activate && pip3 install -r requirements.txt
 
