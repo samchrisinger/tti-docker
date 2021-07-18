@@ -29,7 +29,7 @@ cd /thlib-texts/indexer
 # activate the virtualenv
 source .venv/bin/activate
 set -o allexport; source /solr-variables; set +o allexport
-python index.py -ttxd ../thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon ~/Downloads/saxon-8.jar --solr_auth $SOLR_USER:$SOLR_PASS\
+python index.py -ttxd ../thlib-texts-xml -solr https://$SOLR_HOST -coll $SOLR_CORE -saxon ./saxon-8.jar --solr_auth $SOLR_USER:$SOLR_PASS\
 -include ngb.pt,lccw --index_itx --tib_data_path ../TibetanData --itx_type itx
 ```
 
